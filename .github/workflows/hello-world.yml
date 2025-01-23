@@ -13,3 +13,5 @@ jobs:
 
       - name: Print the content of hello_world.txt
         run: echo "$(cat hello_world.txt)"
+      - name: Sleep for 15 sec
+        run: sleep 15 
