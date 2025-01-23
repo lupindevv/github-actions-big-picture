@@ -1,16 +1,11 @@
-name: deploy_build
-
-on:
-  workflow_dispatch: 
-
-jobs:
+name: build-test-deploy
+on: push
+jobs: 
   build:
     runs-on: ubuntu-latest
-
-    steps:
+    steps: 
       - name: checkout repo
         uses: actions/checkout@v4
-      
       - name: use node.js
         uses: actions/setup-node@v4
         with:
@@ -21,11 +16,9 @@ jobs:
   test:
     needs: build
     runs-on: ubuntu-latest
-
     steps:
       - name: checkout repo
         uses: actions/checkout@v4
-      
       - name: use node.js
         uses: actions/setup-node@v4
         with:
@@ -36,45 +29,36 @@ jobs:
   deploy:
     needs: test
 
-    permissions: 
+    permissions:
       contents: write
-      pages: write
-      id-token: write
+      pages: write     
+      id-token: write  
 
-    environment: 
-      name: deployment
+    environment:
+      name: Deployment
       url: ${{ steps.deployment.outputs.page_url }}
-
+    
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout repo
+      - name: checkout repo
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-  
-      - name: Use Node.js
+      - name: use node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-  
-      - name: Configure GitHub Pages
+      - name: configure github pages
         uses: actions/configure-pages@v4
         with:
           static_site_generator: next
-  
-      - name: Install dependencies
-        run: npm install
-  
-      - name: Build the project
-        run: npm run build
-  
-      - name: Upload artifacts
-        uses: actions/upload-artifacts@v3
-        with:
-          name: build-artifacts
-          path: './demo-files'
-  
-      - name: Deploy
+      - run: npm install
+      - run: npm run build    
+      - name: upload artifacts
+        uses: actions/upload-pages-artifact@v3
+        with: 
+          path: './out'
+      - name: deploy
         id: deployment
         uses: actions/deploy-pages@v4
