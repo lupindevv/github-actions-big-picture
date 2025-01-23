@@ -15,3 +15,5 @@ jobs:
         run: echo "$(cat hello_world.txt)"
       - name: Sleep for 15 sec
         run: sleep 15 
+      - name: LS of home directory
+        run: echo "$(ls -la)"
