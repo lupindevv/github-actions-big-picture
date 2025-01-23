@@ -70,8 +70,9 @@ jobs:
         run: npm run build
   
       - name: Upload artifacts
-        uses: actions/upload-pages-artifacts@v3
+        uses: actions/upload-artifacts@v3
         with:
+          name: build-artifacts
           path: './out'
   
       - name: Deploy
