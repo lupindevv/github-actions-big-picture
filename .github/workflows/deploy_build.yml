@@ -73,7 +73,7 @@ jobs:
         uses: actions/upload-artifacts@v3
         with:
           name: build-artifacts
-          path: './out'
+          path: './demo-files'
   
       - name: Deploy
         id: deployment
